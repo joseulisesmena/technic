@@ -1,0 +1,8 @@
+sse_optimized.lo: sse_optimized.cpp cpu_detect.h ../../include/STTypes.h \
+ ../../include/soundtouch_config.h
+
+cpu_detect.h:
+
+../../include/STTypes.h:
+
+../../include/soundtouch_config.h:

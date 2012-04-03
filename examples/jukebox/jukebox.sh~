@@ -1,0 +1,2 @@
+#!/bin/bash
+./jukebox/jukebox -u joseulisesmena -p orniter2 -l $1

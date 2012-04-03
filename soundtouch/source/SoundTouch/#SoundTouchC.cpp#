@@ -1,0 +1,18 @@
+#include <assert.h>
+#include <stdlib.h>
+#include <memory.h>
+#include <math.h>
+#include <stdexcept>
+#include <stdio.h>
+
+#include "SoundTouch.h"
+#include "TDStretch.h"
+#include "RateTransposer.h"
+#include "cpu_detect.h"
+
+using namespace soundtouch;
+
+/// test if two floating point numbers are equal                                             
+#define TEST_FLOAT_EQUAL(a, b)  (fabs(a - b) < 1e-10)
+
+l
