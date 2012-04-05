@@ -1,6 +1,9 @@
 var sp = getSpotifyApi(1);
 var models = sp.require('sp://import/scripts/api/models');
 var player = models.player;
+var googletracker = sp.require("sp://import/scripts/googletracker")
+var tracker = new googletracker.GoogleTracker("UA-30650065-1")
+tracker.track("/")
 
 exports.init = init;
 
@@ -15,8 +18,6 @@ function init() {
 			updatePageWithTrackDetails();
 		}
 	});
-	
-	document.append("?");
 
 	searchLastFMForEvents("stockholm");
 }

@@ -10,6 +10,6 @@
 		"en"
 	],
 	"RequiredPermissions": [
-		"http://ajax.googleapis.com"
+		"http://www.google-analytics.com", "http://www.google.com", "http://dailymotion.com", "http://*.dailymotion.com", "http://*.dmcdn.net", "http://*.aspnetcdn.com"
 	]
 }
