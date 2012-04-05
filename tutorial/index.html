@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>My First App</title>
+	<link rel="stylesheet" href="sp://import/css/adam.css">
+	<link rel="stylesheet" href="sp://tutorial/tutorial.css">
+	<script src="sp://tutorial/jquery.js"></script>
+	<script>
+		$(document).ready(function() {
+			$('#test').html("Yeah!");
+		});
+	</script>
+</head>
+<body onload="sp = getSpotifyApi(1); tutorial = sp.require('tutorial'); tutorial.init();">
+<h1 id="header">Hello, world!</h1>
+<h2 id="test"></h2>
+</body>
+</html>
