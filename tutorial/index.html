@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>My First App</title>
+	<link rel="stylesheet" href="sp://import/css/adam.css">
+	<link rel="stylesheet" href="sp://tutorial/tutorial.css">
+	<script src="sp://tutorial/jquery.js"></script>
+	<script>
+		$(document).ready(function() {
+			sp = getSpotifyApi(1); 
+			var models = sp.require('sp://import/scripts/api/models');
+			
+			var t = new models.Link("spotify:track:2QO8cnnFW6khDuAuUAySeV#3:04");
+			var html = t.toURL();
+			var r = models.Link.fromURL(html);
+			//var link = new models.Link("http://9c.media.v4.skyrock.net/music/9c6/53a/9c653a864512e2d4e3dd5d86d80fb0b1.mp3");
+			//models.player.play("http://www.spotify.com/track/2QO8cnnFW6khDuAuUAySeV%233:04");
+			//tutorial = sp.require('tutorial'); 
+			//tutorial.init();
+			//$('#test').html("Yeah!");
+			
+			/*$.ajax({
+				url: "http://www.google.com",
+				success: function(data) {
+					$('#test').html(data);
+				}
+			})*/
+		});
+	</script>
+</head>
+<body>
+<h1 id="header">Hello, world!</h1>
+
+</body>
+</html>
