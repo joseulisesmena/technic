@@ -1,0 +1,15 @@
+typedef void SoundTouch;
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+    SoundTouch *st_new();
+    void st_setChannels(SoundTouch *st, int channels);
+    void st_setSampleRate(SoundTouch *st, uint samplerate);
+    void st_setPitchSemiTones(SoundTouch *st, int newPitch);
+    void st_putSamples(SoundTouch *st, int16_t *samples, uint nsamples);
+    void st_setTempoChange(SoundTouch *st, int newTempo);
+    int16_t * st_receiveSamples(SoundTouch *st);
+#ifdef __cplusplus
+} //extern "C"
+#endif

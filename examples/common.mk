@@ -14,10 +14,10 @@ check-libspotify:
 	@test -f $(P)/include/libspotify/api.h || (echo "Failed to find libspotify/api.h in $(P)/include" >&2 ; exit 1)
 
 CFLAGS  += -I$(P)/include
-CFLAGS  += -I/home/jmena/cos333/technic/soundtouch/include
+CFLAGS += -I../../soundtouch/include
 LDFLAGS += -Wl,-rpath,$(P)/lib -L$(P)/lib -lpthread -lrt
 LDLIBS  += -lspotify
-
+LDFLAGS += -Wl,-rpath,/usr/local/lib
 ifeq ($(shell uname),Darwin)
 CPUARCH   ?= $(shell uname -m)
 CFLAGS    += -D__APPLE__ -arch $(CPUARCH)

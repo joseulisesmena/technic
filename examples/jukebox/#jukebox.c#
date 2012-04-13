@@ -42,6 +42,7 @@
 #include "audio.h"
 
 #include <SoundTouchWrapper.h>
+#include <SoundTouch.h>
 /* --- Data --- */
 /// The application key is specific to each project, and allows Spotify
 /// to produce statistics on how our service is used.
@@ -389,7 +390,7 @@ static int music_delivery(sp_session *sess, const sp_audioformat *format,
 	st_setChannels(st, (uint) format->channels);
 	st_putSamples(st, modbuf, num_frames*sec*format->channels);
 	st_setTempoChange(st, 20);
-	//modbuf = st_receiveSamples(st);
+	modbuf = st_receiveSamples(st);
 	/*for(ind = 0; ind < num_frames * format->channels * sec; ind++) {
 	    //printf("%i\n",*(modbuf + ind));
 	    if (ind % 10 != 0) {

@@ -218,7 +218,7 @@ void SoundTouch::setPitchOctaves(float newPitch)
 // Sets pitch change in semi-tones compared to the original pitch
 // (-12 .. +12)
 void SoundTouch::setPitchSemiTones(int newPitch)
-{*
+{
     setPitchOctaves((float)newPitch / 12.0f);
 }
 
