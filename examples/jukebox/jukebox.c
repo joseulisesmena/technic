@@ -41,7 +41,8 @@
 
 #include "audio.h"
 
-#include <SoundTouchWrapper.h>
+#include "SoundTouchWrapper.h"
+
 /* --- Data --- */
 /// The application key is specific to each project, and allows Spotify
 /// to produce statistics on how our service is used.
@@ -357,8 +358,8 @@ static int music_delivery(sp_session *sess, const sp_audioformat *format,
 	//int ind;
 	int sec;
 	int16_t *modbuf;
-	struct CSoundTouch *st;
 	//ind = 0;
+	struct SoundTouch *st;
 	if (num_frames == 0)
 		return 0; // Audio discontinuity, do nothing
 	// synchronize threads
@@ -384,12 +385,19 @@ static int music_delivery(sp_session *sess, const sp_audioformat *format,
 	    }*/
 	modbuf = malloc(s);
 	memcpy(modbuf, frames, s);
-	st = st_new();
+	//	st_setChannels(st,2);
+	st_new((int) 2, (uint) 44100, (int) -50, 
+	       (int16_t *)modbuf, (uint) 2048);
+	/*	printf("jews!\n");
 	st_setSampleRate(st, (uint) format->sample_rate);
+	printf("jews!\n");
 	st_setChannels(st, (uint) format->channels);
+	
+	printf("jews!\n");
 	st_putSamples(st, modbuf, num_frames*sec*format->channels);
+	printf("jews!\n");
 	st_setTempoChange(st, 20);
-	//modbuf = st_receiveSamples(st);
+        //st_receiveSamples(st,modbuf,sec*num_frames*format->channels);
 	/*for(ind = 0; ind < num_frames * format->channels * sec; ind++) {
 	    //printf("%i\n",*(modbuf + ind));
 	    if (ind % 10 != 0) {

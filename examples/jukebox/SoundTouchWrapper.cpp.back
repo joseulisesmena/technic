@@ -1,0 +1,39 @@
+#include "SoundTouchWrapper.h"
+using namespace soundtouch; 
+
+
+
+extern "C" void st_new(int channels, uint samplerate, int newTempo, int16_t *samples, uint nsamples) {
+    SoundTouch st;
+    st.setChannels(channels);
+    st.setSampleRate(samplerate);
+    st.setTempoChange(newTempo);
+    st.putSamples((const int16_t *)samples, nsamples);
+    st.receiveSamples(samples,nsamples);
+    return;
+}
+
+extern "C" void st_setChannels(SoundTouch *st, int channels) {
+    st->setChannels(channels);
+    return;
+}
+extern "C" void st_setSampleRate(SoundTouch *st, uint samplerate) {
+    st->setSampleRate(samplerate);
+    return;
+}
+extern "C" void st_setPitchSemiTones(SoundTouch *st, int newPitch) {
+    st->setPitchSemiTones(newPitch);
+    return;
+    }
+extern "C" void st_putSamples(SoundTouch *st, int16_t *samples, uint nsamples){
+    st->putSamples((const int16_t*)samples, nsamples);
+    return;
+}
+extern "C" void st_setTempoChange(SoundTouch *st, int newTempo) {
+    st->setTempoChange(newTempo);
+    return;
+}
+extern "C" void st_receiveSamples(SoundTouch *st, int16_t *output, uint maxsamples) {
+     st->receiveSamples(output, maxsamples);
+     return;
+}
