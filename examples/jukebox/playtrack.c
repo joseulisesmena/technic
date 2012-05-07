@@ -34,14 +34,14 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/time.h>
-
 #include <libspotify/api.h>
 
+#include "sndfile.h"
 #include "audio.h"
 
 
 /* --- Data --- */
-/// The application key is specific to each project, and allows Spotify
+// The application key is specific to each project, and allows Spotify
 /// to produce statistics on how our service is used.
 extern const uint8_t g_appkey[];
 /// The size of the application key.
@@ -62,6 +62,9 @@ static sp_session *g_sess;
 /// Handle to the curren track
 static sp_track *g_currenttrack;
 
+SNDFILE *outfile;
+char *spotstring;
+SF_INFO filetype;
 /* ---------------------------  SESSION CALLBACKS  ------------------------- */
 /**
  * This callback is called when an attempt to login has succeeded or failed.
@@ -79,9 +82,12 @@ static void logged_in(sp_session *sess, sp_error error)
 	}
 
 	printf("Loading track\n");
-	link = sp_link_create_from_string("spotify:track:5W3cjX2J3tjhG8zb6u0qHn");
+	link = sp_link_create_from_string(spotstring);
+	printf("%s\n",spotstring);
         sp_track_add_ref(g_currenttrack = sp_link_as_track(link));
+	printf("jews!\n");
 	sp_link_release(link);
+	printf("jews!\n");
 
 	if (sp_track_error(g_currenttrack) == SP_ERROR_OK) {
 		printf("Now playing \"%s\"...\n", sp_track_name(g_currenttrack));
@@ -141,6 +147,7 @@ static int music_delivery(sp_session *sess, const sp_audioformat *format,
 	audio_fifo_t *af = &g_audiofifo;
 	audio_fifo_data_t *afd;
 	size_t s;
+	printf("written!\n");
 
 	if (num_frames == 0)
 		return 0; // Audio discontinuity, do nothing
@@ -155,7 +162,9 @@ static int music_delivery(sp_session *sess, const sp_audioformat *format,
 	}
 
 	s = num_frames * sizeof(int16_t) * format->channels;
-
+	printf("written!\n");
+	printf("%i %i %i\n",format->sample_rate,format->channels,num_frames);
+	sf_write_raw(outfile, frames, num_frames*4);
 	afd = malloc(sizeof(audio_fifo_data_t) + s);
 	memcpy(afd->samples, frames, s);
 
@@ -260,7 +269,7 @@ static void track_ended(void)
  */
 static void usage(const char *progname)
 {
-	fprintf(stderr, "usage: %s -u <username> -p <password>\n", progname);
+	fprintf(stderr, "usage: %s -u <username> -p <password> -t <track>\n", progname);
 }
 
 int main(int argc, char **argv)
@@ -271,8 +280,8 @@ int main(int argc, char **argv)
 	const char *username = NULL;
 	const char *password = NULL;
 	int opt;
-
-	while ((opt = getopt(argc, argv, "u:p:")) != EOF) {
+	char *filename;
+	while ((opt = getopt(argc, argv, "u:p:t:")) != EOF) {
 		switch (opt) {
 		case 'u':
 			username = optarg;
@@ -280,16 +289,28 @@ int main(int argc, char **argv)
 		case 'p':
 			password = optarg;
 			break;
+		case 't':
+		        spotstring = optarg;
+		        break;
 		default:
 			exit(1);
 		}
 	}
-
+	
 	if (!username || !password) {
 		usage(basename(argv[0]));
 		exit(1);
 	}
-
+	printf("segfault\n");
+	filetype.samplerate = 44100;
+	printf("segfault\n");
+	filetype.channels = 2;
+	filetype.format = SF_FORMAT_WAV | SF_FORMAT_PCM_16;
+	printf("segfault\n");
+	filename = malloc(sizeof(char)*strlen(spotstring) + 4*sizeof(char));
+	sprintf(filename,"%s.wav",spotstring);
+	outfile = sf_open(filename, SFM_WRITE, &filetype);
+	printf("segfault\n");
 	audio_init(&g_audiofifo);
 
 	/* Create session */
@@ -345,6 +366,7 @@ int main(int argc, char **argv)
 
 		pthread_mutex_lock(&g_notify_mutex);
 	}
-
+	sf_close(outfile);
+	printf("end!\n");
 	return 0;
 }

@@ -15,10 +15,13 @@ check-libspotify:
 
 CFLAGS  += -I$(P)/include
 CFLAGS += -I../../soundtouch/include
+CFLAGS += -I../../sndfile/src
 LDFLAGS += -Wl,-rpath,$(P)/lib -L$(P)/lib -lpthread -lrt
 LDLIBS  += -lspotify
 LDFLAGS += -Wl,-rpath,/usr/local/lib -L/usr/local/lib
 LDLIBS += -lSoundTouch
+LDFLAGS += -Wl,-rpath,../../sndfile/src -L../../sndfile/src
+LDLIBS += -lsndfile
 LDFLAGS += -lm
 ifeq ($(shell uname),Darwin)
 CPUARCH   ?= $(shell uname -m)

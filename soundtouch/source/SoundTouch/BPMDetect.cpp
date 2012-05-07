@@ -351,6 +351,7 @@ void BPMDetect::inputSamples(const SAMPLETYPE *samples, int numSamples)
         // ... and remove them from the buffer
         buffer->receiveSamples(processLength);
     }
+    printf("whatup\n");
 }
 
 

@@ -18,8 +18,10 @@ TARGET=jukebox
 
 include ../common.mk
 
-$(TARGET): jukebox.o appkey.o $(AUDIO_DRIVER)-audio.o audio.o SoundTouchWrapper.o 
-playtrack: playtrack.o appkey.o $(AUDIO_DRIVER)-audio.o audio.o
+
+$(TARGET): jukebox.o appkey.o $(AUDIO_DRIVER)-audio.o audio.o SoundTouchWrapper.o
+playtrack: playtrack.o appkey.o $(AUDIO_DRIVER)-audio.o audio.o 
+bpmdetect: bpmdetect.o
 
 audio.o: audio.c audio.h
 alsa-audio.o: alsa-audio.c audio.h
@@ -29,5 +31,8 @@ openal-audio.o: openal-audio.c audio.h
 jukebox.o: jukebox.c audio.h
 	gcc -c $(CFLAGS) $(LDFLAGS) jukebox.c audio.h
 playtrack.o: playtrack.c audio.h
+	gcc -c $(CFLAGS) $(LDFLAGS) playtrack.c audio.h $(LDLIBS)
 SoundTouchWrapper.o: SoundTouchWrapper.cpp SoundTouchWrapper.h 
 	g++ -c $(CFLAGS) $(LDFLAGS) SoundTouchWrapper.cpp SoundTouchWrapper.h
+bpmdetect.o: bpmdetect.cpp
+	g++ -c $(CFLAGS) $(LDFLAGS) bpmdetect.cpp

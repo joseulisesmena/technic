@@ -14,7 +14,7 @@ using namespace soundtouch;
 extern "C" {
 #endif
 
-    extern void st_new(int channels, uint samplerate, 
+    extern int st_new(int channels, uint samplerate, 
 		       int newTempo, int16_t *samples, uint nsamples);
 
 #ifdef __cplusplus

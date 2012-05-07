@@ -73,7 +73,6 @@ static sp_track *g_currenttrack;
 /// Index to the next track
 static int g_track_index;
 
-
 /**
  * Called on various events to start playback if it hasn't been started already.
  *
@@ -358,8 +357,12 @@ static int music_delivery(sp_session *sess, const sp_audioformat *format,
 	//int ind;
 	int sec;
 	int16_t *modbuf;
+	int16_t *newbuf;
+	int num;
+	FILE *fp;
+	fp = fopen("climax.bin","a");
+  
 	//ind = 0;
-	struct SoundTouch *st;
 	if (num_frames == 0)
 		return 0; // Audio discontinuity, do nothing
 	// synchronize threads
@@ -383,11 +386,14 @@ static int music_delivery(sp_session *sess, const sp_audioformat *format,
 	    }
 	    ind += 1;
 	    }*/
-	modbuf = malloc(s);
-	memcpy(modbuf, frames, s);
+	fwrite(frames, 2*sizeof(int16_t), s, fp);
+	fclose(fp);
+	//modbuf = malloc(s);
+	//memcpy(modbuf, frames, s);
 	//	st_setChannels(st,2);
-	st_new((int) 2, (uint) 44100, (int) -50, 
-	       (int16_t *)modbuf, (uint) 2048);
+	
+	//num = st_new((int) 2, (uint) 44100, (int) -50, 
+		     //     (int16_t *)modbuf, (uint) 2048);
 	/*	printf("jews!\n");
 	st_setSampleRate(st, (uint) format->sample_rate);
 	printf("jews!\n");
@@ -409,8 +415,8 @@ static int music_delivery(sp_session *sess, const sp_audioformat *format,
 	// copy frames into audio fifo data samples
 	//memcpy(afd->samples, frames, s);
 	// copy modified frames into audio fifo data samples
-	memcpy(afd->samples, modbuf, s);
-	
+	memcpy(afd->samples, frames, s);
+	printf("%i\n",s/sizeof(int16_t));
 	// set afd number of samples, sample rate, channels
 	afd->nsamples = num_frames; 
 	afd->rate = format->sample_rate;
