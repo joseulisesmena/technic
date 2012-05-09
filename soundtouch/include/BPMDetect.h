@@ -64,10 +64,10 @@ namespace soundtouch
 {
 
 /// Minimum allowed BPM rate. Used to restrict accepted result above a reasonable limit.
-#define MIN_BPM 29
+#define MIN_BPM 70
 
 /// Maximum allowed BPM rate. Used to restrict accepted result below a reasonable limit.
-#define MAX_BPM 230
+#define MAX_BPM 190
 
 
 /// Class for calculating BPM rate for audio data.

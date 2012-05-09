@@ -153,18 +153,16 @@ static int music_delivery(sp_session *sess, const sp_audioformat *format,
 		return 0; // Audio discontinuity, do nothing
 
 	pthread_mutex_lock(&af->mutex);
-
 	/* Buffer one second of audio */
 	if (af->qlen > format->sample_rate) {
 		pthread_mutex_unlock(&af->mutex);
 
 		return 0;
 	}
-
 	s = num_frames * sizeof(int16_t) * format->channels;
 	printf("written!\n");
 	printf("%i %i %i\n",format->sample_rate,format->channels,num_frames);
-	sf_write_raw(outfile, frames, num_frames*4);
+	sf_write_raw(outfile, frames, s);
 	afd = malloc(sizeof(audio_fifo_data_t) + s);
 	memcpy(afd->samples, frames, s);
 
@@ -175,10 +173,9 @@ static int music_delivery(sp_session *sess, const sp_audioformat *format,
 
 	TAILQ_INSERT_TAIL(&af->q, afd, link);
 	af->qlen += num_frames;
-
+	
 	pthread_cond_signal(&af->cond);
 	pthread_mutex_unlock(&af->mutex);
-
 	return num_frames;
 }
 
@@ -334,8 +331,9 @@ int main(int argc, char **argv)
 
 	for (;;) {
 		if (next_timeout == 0) {
-			while(!g_notify_do && !g_playback_done)
-				pthread_cond_wait(&g_notify_cond, &g_notify_mutex);
+		    while(!g_notify_do && !g_playback_done) {
+			pthread_cond_wait(&g_notify_cond, &g_notify_mutex);
+		    }
 		} else {
 			struct timespec ts;
 
@@ -361,7 +359,7 @@ int main(int argc, char **argv)
 		}
 
 		do {
-			sp_session_process_events(sp, &next_timeout);
+		    sp_session_process_events(sp, &next_timeout);
 		} while (next_timeout == 0);
 
 		pthread_mutex_lock(&g_notify_mutex);

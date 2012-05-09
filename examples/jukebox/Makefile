@@ -20,12 +20,15 @@ include ../common.mk
 
 
 $(TARGET): jukebox.o appkey.o $(AUDIO_DRIVER)-audio.o audio.o SoundTouchWrapper.o
-playtrack: playtrack.o appkey.o $(AUDIO_DRIVER)-audio.o audio.o 
+playtrack: playtrack.o appkey.o alsa-audio.o audio.o 
 bpmdetect: bpmdetect.o
 
 audio.o: audio.c audio.h
+	gcc -c $(CFLAGS) $(LDFLAGS) audio.c audio.h
 alsa-audio.o: alsa-audio.c audio.h
+	gcc -c $(CFLAGS) $(LDFLAGS) alsa-audio.c audio.h
 dummy-audio.o: dummy-audio.c audio.h
+	gcc -c $(CFLAGS) $(LDFLAGS) dummy-audio.c audio.h
 osx-audio.o: osx-audio.c audio.h
 openal-audio.o: openal-audio.c audio.h
 jukebox.o: jukebox.c audio.h

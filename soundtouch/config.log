@@ -551,6 +551,7 @@ config.status:1162: creating source/SoundStretch/Makefile
 config.status:1162: creating include/Makefile
 config.status:1162: creating soundtouch.pc
 config.status:1162: creating include/soundtouch_config.h
+config.status:1343: include/soundtouch_config.h is unchanged
 config.status:1391: executing depfiles commands
 config.status:1391: executing libtool commands
 

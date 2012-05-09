@@ -83,7 +83,7 @@ const float avgnorm = (1 - avgdecay);
 
 #ifdef _CREATE_BPM_DEBUG_FILE
 
-    #define DEBUGFILE_NAME  "c:\\temp\\soundtouch-bpm-debug.txt"
+    #define DEBUGFILE_NAME  "soundtouch-bpm-debug.txt"
 
     static void _SaveDebugData(const float *data, int minpos, int maxpos, double coeff)
     {
